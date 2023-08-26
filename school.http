@@ -6,7 +6,7 @@ POST http://localhost:8080/student
 Content-Type: application/json
 
 {
-  "name": "Толя",
+  "name": null,
   "age": 23
 }
 
