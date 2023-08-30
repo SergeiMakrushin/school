@@ -31,7 +31,7 @@ public Student create (@RequestBody Student student) {
     @GetMapping("/age/{intAge}")
     public ResponseEntity<Collection<Student>> searchStudentAge(@PathVariable ("intAge") int intAge){
         if (intAge > 0) {
-            return ResponseEntity.ok(studentService.searchStudentAge(intAge));
+            return ResponseEntity.ok(studentService.findByAge(intAge));
         }
         return ResponseEntity.ok(Collections.emptyList());
 

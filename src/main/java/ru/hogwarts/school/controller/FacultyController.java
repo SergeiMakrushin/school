@@ -32,7 +32,7 @@ public class FacultyController {
     @GetMapping("/colorFaculty/{color}")
     public ResponseEntity<Collection<Faculty>> searchColorFaculty(@PathVariable ("color") String color) {
         if (color != null && !color.isBlank()) {
-            return ResponseEntity.ok(facultyService.searchColorFaculty(color));
+            return ResponseEntity.ok(facultyService.findByColor(color));
         }
         return ResponseEntity.ok(Collections.emptyList());
     }
