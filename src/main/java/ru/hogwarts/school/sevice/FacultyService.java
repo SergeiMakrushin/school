@@ -6,15 +6,14 @@ import ru.hogwarts.school.repositories.FacultyRepository;
 
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+
 
 @Service
 public class FacultyService {
     FacultyRepository facultyRepository;
 
-  public   FacultyService(FacultyRepository facultyRepository) {
-        this.facultyRepository=facultyRepository;
+    public FacultyService(FacultyRepository facultyRepository) {
+        this.facultyRepository = facultyRepository;
     }
 
 
@@ -24,17 +23,19 @@ public class FacultyService {
     }
 
     public Collection<Faculty> getAllFaculty() {
-        return  facultyRepository.findAll();
+        return facultyRepository.findAll();
 
     }
 
 
-
-    public  Collection <Faculty> findByColor (String color) {
+    public Collection<Faculty> findByColor(String color) {
         return facultyRepository.findByColor(color);
 
     }
 
+    public Collection<Faculty> findFacultiesByNameIgnoreCaseOrColorIgnoreCase(String name, String color) {
+        return facultyRepository.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(name, color);
+    }
 
     public Faculty updateFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
@@ -46,10 +47,6 @@ public class FacultyService {
         facultyRepository.deleteById(id);
 
     }
-
-
-
-
 
 
 }

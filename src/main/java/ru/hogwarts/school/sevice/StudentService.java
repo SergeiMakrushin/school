@@ -5,16 +5,15 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+
 
 @Service
 public class StudentService {
 
     StudentRepository studentRepository;
 
- public     StudentService(StudentRepository studentRepository) {
-        this.studentRepository=studentRepository;
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
 
 
@@ -28,9 +27,13 @@ public class StudentService {
 
     }
 
-    public Collection<Student> findByAge (int age) {
+    public Collection<Student> findByAge(int age) {
         return studentRepository.findByAge(age);
 
+    }
+
+    public Collection<Student> findByAgeBetween(int min, int max) {
+        return studentRepository.findByAgeBetween(min, max);
     }
 
     public Student updateStudent(Student student) {
@@ -40,7 +43,7 @@ public class StudentService {
     }
 
     public void removeElement(long id) {
-          studentRepository.deleteById(id);
+        studentRepository.deleteById(id);
 
     }
 
