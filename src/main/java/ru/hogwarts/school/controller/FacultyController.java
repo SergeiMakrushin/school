@@ -2,6 +2,7 @@ package ru.hogwarts.school.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 
@@ -38,10 +39,10 @@ public class FacultyController {
         return ResponseEntity.ok(Collections.emptyList());
     }
 
-    @GetMapping("/colorFaculty")
-    public ResponseEntity<Collection<Faculty>> findNameOrColor(@RequestParam("name") String name,
-                                                               @RequestParam("color") String color) {
-        if (name != null & !name.isBlank() & color != null & !color.isBlank()) {
+    @GetMapping("/colorFaculty_two")
+    public ResponseEntity<Collection<Faculty>> findNameOrColor(@RequestParam(required = false) String name,
+                                                               @RequestParam(required = false) String color) {
+        if (name != null && !name.isBlank() && color != null && !color.isBlank()) {
             return ResponseEntity.ok(facultyService.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(name, color));
         }
         return ResponseEntity.ok(Collections.emptyList());
