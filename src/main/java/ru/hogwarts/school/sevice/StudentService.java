@@ -5,6 +5,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 
 @Service
@@ -69,6 +70,10 @@ public class StudentService {
 
     public void removeElement(long id) {
         studentRepository.deleteById(id);
+    }
+
+    public Student findStudent (long id) {
+       return studentRepository.findStudentById(id);
     }
 
 }

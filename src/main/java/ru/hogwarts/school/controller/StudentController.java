@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import ru.hogwarts.school.sevice.StudentService;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
@@ -73,6 +75,16 @@ public class StudentController {
     @GetMapping("/grouping_age")
     public Collection<Student> findByOrderByAge() {
         return studentService.findByOrderByAge();
+    }
+
+    @GetMapping("/student_id")
+    public ResponseEntity<Student> findStudent(@RequestParam ("id") Long id) {
+
+        if (id != null) {
+            return ResponseEntity.ok(studentService.findStudent(id));
+        }
+//        return ResponseEntity.ok(TypeResolutionContext.Empty);
+        return ResponseEntity.noContent().build();
     }
 
     //6 получить факультет студента

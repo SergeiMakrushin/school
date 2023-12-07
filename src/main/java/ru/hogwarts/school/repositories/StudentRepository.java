@@ -40,6 +40,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     Collection<Student> findStudentsByFaculty_Id(int id);
 
-
+Student findStudentById(long id);
 
 }
