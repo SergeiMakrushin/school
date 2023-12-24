@@ -1,13 +1,14 @@
 package ru.hogwarts.school.sevice;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
-
 import java.util.Collection;
 
-
+@Transactional
+//@Scope(proxyMode = ScopedProxyMode.INTERFACES)
 @Service
 public class FacultyService {
     FacultyRepository facultyRepository;
@@ -48,5 +49,11 @@ public class FacultyService {
 
     }
 
+public void removeElementColor(String color) {
+        facultyRepository.deleteByColor(color);
+}
 
+    public Faculty findById(Long id) {
+        return facultyRepository.findById(id).orElseThrow();
+    }
 }

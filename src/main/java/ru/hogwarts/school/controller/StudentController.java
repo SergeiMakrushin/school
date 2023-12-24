@@ -1,6 +1,5 @@
 package ru.hogwarts.school.controller;
 
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,8 +8,6 @@ import ru.hogwarts.school.sevice.StudentService;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
@@ -25,7 +22,21 @@ public class StudentController {
     public Student create(@RequestBody Student student) {
         return this.studentService.createStudent(student);
     }
+    @PutMapping
+    public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
+        Student foundStudent = studentService.updateStudent(student);
+        if (foundStudent == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(foundStudent);
+    }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteStudent(@PathVariable long id) {
+        studentService.removeElement(id);
+        return ResponseEntity.ok().build();
+
+    }
 
     @GetMapping
     public Collection<Student> getAllStudent() {
@@ -109,20 +120,6 @@ public class StudentController {
     }
 
 
-    @PutMapping
-    public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
-        Student foundStudent = studentService.updateStudent(student);
-        if (foundStudent == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return ResponseEntity.ok(foundStudent);
-    }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable long id) {
-        studentService.removeElement(id);
-        return ResponseEntity.ok().build();
-
-    }
 
 }

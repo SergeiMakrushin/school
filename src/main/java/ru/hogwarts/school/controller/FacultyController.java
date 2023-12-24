@@ -2,10 +2,8 @@ package ru.hogwarts.school.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
-
 import ru.hogwarts.school.sevice.FacultyService;
 
 import java.util.Collection;
@@ -29,6 +27,14 @@ public class FacultyController {
     @GetMapping
     public Collection<Faculty> getAllFaculty() {
         return this.facultyService.getAllFaculty();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Faculty> getFacultyId (@PathVariable("id")Long id) {
+        if (id != null) {
+            return ResponseEntity.ok(facultyService.findById(id));
+        }
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/colorFaculty/{color}")
@@ -64,5 +70,14 @@ public class FacultyController {
         facultyService.removeElement(id);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping ("/delete/{color}")
+    public ResponseEntity <Void> deleteFacultyColor(@PathVariable String color) {
+        facultyService.removeElementColor(color);
+        return ResponseEntity.ok().build();
+    }
+
+
+
 
 }
