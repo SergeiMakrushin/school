@@ -12,5 +12,5 @@ CREATE TABLE Cars
 Id INTEGER PRIMARY KEY,
 Brand TEXT,
 Model TEXT,
-Price TEXT
+Price MONEY
 );
