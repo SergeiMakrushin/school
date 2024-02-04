@@ -167,13 +167,12 @@ public class StudentControllerTestRestTemplate {
         nameStudents = studentRepository.findAllNameStudent();
 
         String nameTest = nameStudents.stream().findFirst().get();
-        System.out.println("nameTest = " + nameTest);
 
         Assertions.assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/student/student_faculty_id?name=" + nameTest, String.class))
                 .isNotEmpty();
     }
 
-    //вернуть студентов
+
     @Test
     void findFacultyStudentsTest() throws Exception {
         Collection<Faculty> allFacultys = new ArrayList<>();
@@ -200,7 +199,6 @@ public class StudentControllerTestRestTemplate {
         Assertions.assertThat(studentTest.getName()).isEqualTo(student.getName());
 
         studentRepository.deleteById(studentTest.getId());
-        System.out.println("studentTest = " + studentTest);
 
     }
 
@@ -226,11 +224,15 @@ public class StudentControllerTestRestTemplate {
         student.setName("Филимон");
         student.setAge(24);
 
+        int sizeTableBefore = studentController.getAllStudent().size();
+
         Student studentTest = restTemplate.postForObject("http://localhost:" + port + "/student", student, Student.class);
         Assertions.assertThat(studentTest.getName()).isEqualTo(student.getName());
 
         studentRepository.deleteById(studentTest.getId());
-        System.out.println("studentTest = " + studentTest);
+
+        int sizeTableAfter = studentController.getAllStudent().size();
+        Assertions.assertThat(sizeTableBefore).isEqualTo(sizeTableAfter);
     }
 
 

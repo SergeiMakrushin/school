@@ -12,7 +12,7 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/faculty")
 public class FacultyController {
-    FacultyService facultyService;
+    private final FacultyService facultyService;
 
     FacultyController(FacultyService facultyService) {
         this.facultyService = facultyService;
@@ -30,10 +30,8 @@ public class FacultyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Faculty> getFacultyId (@PathVariable("id")Long id) {
-        if (id != null) {
-            return ResponseEntity.ok(facultyService.findById(id));
-        }
+    public ResponseEntity<Faculty> getFacultyId(@PathVariable("id") Long id) {
+
         return ResponseEntity.ok().build();
     }
 
@@ -71,13 +69,11 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping ("/delete/{color}")
-    public ResponseEntity <Void> deleteFacultyColor(@PathVariable String color) {
+    @DeleteMapping("/delete/{color}")
+    public ResponseEntity<Void> deleteFacultyColor(@PathVariable String color) {
         facultyService.removeElementColor(color);
         return ResponseEntity.ok().build();
     }
-
-
 
 
 }

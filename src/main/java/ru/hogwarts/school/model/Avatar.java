@@ -10,9 +10,13 @@ public class Avatar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+//    В нем будем хранить путь до файла на вашем диске
     private String filePath;
+//    содержит информацию о размере файла в байтах
     private long fileSize;
+//    Тип файла
     private String mediaType;
+//    хранится сама информация о файле, представленная в массиве байтов.
     @Lob
     private byte[] data;
     @OneToOne

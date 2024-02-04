@@ -8,18 +8,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
-
 import ru.hogwarts.school.sevice.AvatarService;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Path;
-import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Collection;
 
 @RestController
 public class AvatarController {
-    AvatarService avatarService;
+    private final AvatarService avatarService;
 
     public AvatarController(AvatarService avatarService) {
         this.avatarService = avatarService;
@@ -31,13 +31,16 @@ public class AvatarController {
         return ResponseEntity.ok().build();
     }
 
+
     @GetMapping(value = "/{id}/avatar-from-db")
     public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {
         Avatar avatar = avatarService.findAvatar(id);
+        byte[] avatarInfo = avatar.getData();
         HttpHeaders headers = new HttpHeaders();
+//        устанавливали необходимые хедеры (headers), чтобы браузер понимал, с каким типом данных ему работать.
         headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
-        headers.setContentLength(avatar.getData().length);
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(avatar.getData());
+        headers.setContentLength(avatarInfo.length);
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(avatarInfo);
     }
 
     @GetMapping(value = "/{id}/avatar-from-file")
@@ -52,5 +55,14 @@ public class AvatarController {
             is.transferTo(os);
         }
     }
+
+    @GetMapping("/avatar-limit")
+    public ResponseEntity<Collection<byte[]>> getAvatarLimit(@RequestParam("page") Integer pageNamber, @RequestParam("size") Integer pageSize) {
+        Collection<Avatar> avatars = avatarService.getAvatarLimit(pageNamber, pageSize);
+        Collection<byte[]> bytes = avatars.stream().map(Avatar::getData).toList();
+
+        return ResponseEntity.ok(bytes);
+    }
+
 
 }

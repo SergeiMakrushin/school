@@ -1,18 +1,19 @@
 package ru.hogwarts.school.sevice;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 
 
 @Service
 public class StudentService {
 
 
-    StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
@@ -72,8 +73,25 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    public Student findStudent (long id) {
-       return studentRepository.findStudentById(id);
+    public Student findStudent(long id) {
+        return studentRepository.findStudentById(id);
+    }
+
+    public Integer getCountStudent() {
+        return studentRepository.findCountStudent();
+    }
+
+    public Integer getAverageAgeStudent() {
+        return studentRepository.findAverageAge();
+    }
+
+    public Collection<Student> getStudentOrderByIdDescLimitFive() {
+        return studentRepository.findStudentOrderByIdDescLimitFive();
+    }
+
+    public List<Student> getStudentLimit(Integer pageNamber, Integer pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNamber - 1, pageSize);
+        return studentRepository.findAll(pageRequest).getContent();
     }
 
 }

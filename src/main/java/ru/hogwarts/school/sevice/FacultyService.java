@@ -11,7 +11,7 @@ import java.util.Collection;
 //@Scope(proxyMode = ScopedProxyMode.INTERFACES)
 @Service
 public class FacultyService {
-    FacultyRepository facultyRepository;
+    private final FacultyRepository facultyRepository;
 
     public FacultyService(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
@@ -40,18 +40,15 @@ public class FacultyService {
 
     public Faculty updateFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
-
-
     }
 
     public void removeElement(long id) {
         facultyRepository.deleteById(id);
-
     }
 
-public void removeElementColor(String color) {
+    public void removeElementColor(String color) {
         facultyRepository.deleteByColor(color);
-}
+    }
 
     public Faculty findById(Long id) {
         return facultyRepository.findById(id).orElseThrow();

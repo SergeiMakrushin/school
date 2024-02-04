@@ -44,6 +44,7 @@ public class FacultyControllerTestRestTemplate {
     @Test
     void createTest() throws Exception {
         Faculty faculty = new Faculty();
+        int sizeTableBefore = facultyController.getAllFaculty().size();
 
         faculty = restTemplate.postForObject("http://localhost:" + port + "/faculty", faculty1, Faculty.class);
         Assertions.assertThat(faculty.getColor()).isEqualTo(faculty1.getColor());
@@ -56,11 +57,14 @@ public class FacultyControllerTestRestTemplate {
                 .findFirst()
                 .get()
                 .getId());
+        int sizeTableAfter = facultyController.getAllFaculty().size();
+        Assertions.assertThat(sizeTableBefore).isEqualTo(sizeTableAfter);
     }
 
     @Test
     void updateFacultyTest() throws Exception {
         Faculty faculty = new Faculty();
+        int sizeTableBefore = facultyController.getAllFaculty().size();
 
         faculty = restTemplate.postForObject("http://localhost:" + port + "/faculty", faculty2, Faculty.class);
         Assertions.assertThat(faculty.getColor()).isEqualTo(faculty2.getColor());
@@ -73,13 +77,16 @@ public class FacultyControllerTestRestTemplate {
                 .findFirst()
                 .get()
                 .getId());
-        System.out.println("facultyArrayList = " + facultyArrayList);
+
+        int sizeTableAfter = facultyController.getAllFaculty().size();
+        Assertions.assertThat(sizeTableBefore).isEqualTo(sizeTableAfter);
     }
 
     @Test
     void searchColorFacultyTest() throws Exception {
         String color = faculty3.getColor();
         facultyRepository.save(faculty3);
+        int sizeTableBefore = facultyController.getAllFaculty().size();
 
         ResponseEntity<List<Faculty>> faculties = restTemplate.exchange("http://localhost:" + port + "/faculty/colorFaculty/{color}",
                 HttpMethod.GET,
@@ -102,6 +109,9 @@ public class FacultyControllerTestRestTemplate {
                 .findFirst()
                 .get()
                 .getId());
+
+        int sizeTableAfter = facultyController.getAllFaculty().size();
+        Assertions.assertThat(sizeTableBefore).isEqualTo(sizeTableAfter);
     }
 
     @Test
@@ -121,6 +131,7 @@ public class FacultyControllerTestRestTemplate {
 
     @Test
     void getAllFacultyTest() throws Exception {
+
         Assertions.assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/faculty", String.class))
                 .isNotEmpty();
     }
@@ -128,6 +139,7 @@ public class FacultyControllerTestRestTemplate {
 
     @Test
     void findNameOrColorTest() throws Exception {
+        int sizeTableBefore = facultyController.getAllFaculty().size();
         Faculty faculty = new Faculty();
         faculty.setId(60L);
         faculty.setColor("ColorTest");
@@ -141,6 +153,9 @@ public class FacultyControllerTestRestTemplate {
                 .contains(faculty.getName());
 
         facultyRepository.deleteById(facultyRetern.getId());
+
+        int sizeTableAfter = facultyController.getAllFaculty().size();
+        Assertions.assertThat(sizeTableBefore).isEqualTo(sizeTableAfter);
     }
 
 

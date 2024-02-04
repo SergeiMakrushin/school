@@ -8,11 +8,12 @@ import ru.hogwarts.school.sevice.StudentService;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-    StudentService studentService;
+    private final StudentService studentService;
 
     StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -22,6 +23,7 @@ public class StudentController {
     public Student create(@RequestBody Student student) {
         return this.studentService.createStudent(student);
     }
+
     @PutMapping
     public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
         Student foundStudent = studentService.updateStudent(student);
@@ -45,10 +47,10 @@ public class StudentController {
 
     @GetMapping("/age/{intAge}")
     public ResponseEntity<Collection<Student>> searchStudentAge(@PathVariable("intAge") int intAge) {
-        if (intAge > 0) {
+        if (intAge > 0 & intAge < 100) {
             return ResponseEntity.ok(studentService.findByAge(intAge));
         }
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.badRequest().build();
     }
 
 
@@ -61,7 +63,7 @@ public class StudentController {
 
             return ResponseEntity.ok(studentService.findByAgeBetween(min, max));
         }
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.badRequest().build();
     }
 
     // 2 Получить всех студентов, но отобразить только список их имен.
@@ -89,7 +91,7 @@ public class StudentController {
     }
 
     @GetMapping("/student_id")
-    public ResponseEntity<Student> findStudent(@RequestParam ("id") Long id) {
+    public ResponseEntity<Student> findStudent(@RequestParam("id") Long id) {
 
         if (id != null) {
             return ResponseEntity.ok(studentService.findStudent(id));
@@ -119,7 +121,27 @@ public class StudentController {
         return ResponseEntity.ok(Collections.emptyList());
     }
 
+    // 8 вернуть количество студентов в школе
+    @GetMapping("/count")
+    public ResponseEntity<Integer> getCountStudent() {
+        return ResponseEntity.ok(studentService.getCountStudent());
+    }
 
+    //9 вернуть средний возраст студентов
+    @GetMapping("/average_age")
+    public ResponseEntity<Integer> getAverageAgeStudent() {
+        return ResponseEntity.ok(studentService.getAverageAgeStudent());
+    }
 
+    @GetMapping("/limit_desc_five")
+    public ResponseEntity<Collection<Student>> getStudentOrderByIdDescLimitFive() {
+        return ResponseEntity.ok(studentService.getStudentOrderByIdDescLimitFive());
+    }
+
+    @GetMapping("/limit")
+    public ResponseEntity<List<Student>> getStudentLimit(@RequestParam("page") Integer pageNamber, @RequestParam("size") Integer pageSize) {
+        List<Student> students = studentService.getStudentLimit(pageNamber, pageSize);
+        return ResponseEntity.ok(students);
+    }
 
 }
