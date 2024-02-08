@@ -1,0 +1,20 @@
+### Получить всех студентов
+GET http://localhost:8080/student
+
+### Создать студента
+POST http://localhost:8080/student
+Content-Type: application/json
+
+{
+  "name": null,
+  "age": 23
+}
+
+### Создать студента 2
+POST http://localhost:8080/student
+Content-Type: application/json
+
+{
+  "name": "Оля",
+  "age": 27
+}
