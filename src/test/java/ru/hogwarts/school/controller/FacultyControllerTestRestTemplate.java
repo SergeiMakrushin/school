@@ -25,7 +25,7 @@ public class FacultyControllerTestRestTemplate {
     @Autowired
     private FacultyController facultyController;
     @Autowired
-    FacultyRepository facultyRepository;
+    private FacultyRepository facultyRepository;
     @Autowired
     private TestRestTemplate restTemplate;
 
