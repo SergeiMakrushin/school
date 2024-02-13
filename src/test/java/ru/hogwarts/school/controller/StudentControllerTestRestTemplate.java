@@ -32,7 +32,7 @@ public class StudentControllerTestRestTemplate {
     @Autowired
     StudentRepository studentRepository;
     @Autowired
-    FacultyRepository facultyRepository;
+    private FacultyRepository facultyRepository;
     @Autowired
     private TestRestTemplate restTemplate;
 
