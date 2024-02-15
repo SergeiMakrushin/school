@@ -9,6 +9,7 @@ import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.IntStream;
 
 
 @Service
@@ -114,5 +115,45 @@ public class StudentService {
         return studentRepository.findAll(pageRequest).getContent();
 
     }
+
+    public List<String> getNameFirstLetter() {
+        logger.info("Was invoked method for getNameFirstLetter");
+        List<Student> students = studentRepository.findAll();
+        return students.stream()
+                .map(s -> s.getName())
+                .filter(s -> s.charAt(0) == 'Е')
+                .map(String::toUpperCase)
+                .toList();
+
+    }
+
+    public Integer getAverageAgeStudentStream() {
+        logger.info("Was invoked method for getAverageAgeStudentStream");
+        List<Student> students = studentRepository.findAll();
+        return students.stream()
+                .mapToInt(s -> s.getAge())
+                .average()
+                .stream().mapToInt(i -> (int) i)
+                .findFirst()
+                .orElseThrow();
+
+    }
+
+
+    public Integer getInteger() {
+        long startTime = System.currentTimeMillis();
+        logger.info("Was invoked method for getInteger");
+
+        int sum = IntStream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b);
+        long timeWork = System.currentTimeMillis() - startTime;
+        logger.info("time work = " + timeWork);
+
+        return sum;
+
+
+    }
+
 
 }

@@ -8,6 +8,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
 
 @Transactional
 //@Scope(proxyMode = ScopedProxyMode.INTERFACES)
@@ -19,7 +20,7 @@ public class FacultyService {
         this.facultyRepository = facultyRepository;
     }
 
-    Logger logger= LoggerFactory.getLogger(FacultyService.class);
+    Logger logger = LoggerFactory.getLogger(FacultyService.class);
 
     public Faculty createFaculty(Faculty faculty) {
         logger.info("Was invoked method for createFaculty");
@@ -63,5 +64,14 @@ public class FacultyService {
     public Faculty findById(Long id) {
         logger.info("Was invoked method for findById");
         return facultyRepository.findById(id).orElseThrow();
+    }
+
+    public String findLongColor() {
+        logger.info("Was invoked method for findLongColor");
+        return facultyRepository.findAll().stream()
+                .max(Comparator.comparing(faculty -> faculty.getColor().length()))
+                .map(Faculty::getColor)
+                .orElseThrow();
+
     }
 }

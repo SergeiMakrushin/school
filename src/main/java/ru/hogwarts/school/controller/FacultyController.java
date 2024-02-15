@@ -75,5 +75,10 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping ("/long_color")
+    public ResponseEntity <String> getLongColorFaculty() {
+        return ResponseEntity.ok(facultyService.findLongColor());
+    }
+
 
 }
