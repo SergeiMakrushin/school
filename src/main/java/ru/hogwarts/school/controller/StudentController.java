@@ -144,4 +144,31 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
+    @GetMapping("/first_latter_name")
+    public ResponseEntity<List<String>> getNameFirstLetter() {
+        List<String> names = studentService.getNameFirstLetter();
+        return ResponseEntity.ok(names);
+    }
+
+    @GetMapping("/average_age_stream")
+    public ResponseEntity<Integer> getAverageAgeStudentStream() {
+        return ResponseEntity.ok(studentService.getAverageAgeStudentStream());
+    }
+
+    @GetMapping("/get_integer")
+    public ResponseEntity<Integer> getInteger() {
+        return ResponseEntity.ok(studentService.getInteger());
+    }
+
+
+    @GetMapping("/print_parallel")
+    public void getPrintParallel() {
+        studentService.getPrintParallel();
+    }
+
+    @GetMapping("/print_synchronized")
+    public void getPrintSynchronised() {
+        studentService.getPrintSynchronised();
+    }
+
 }

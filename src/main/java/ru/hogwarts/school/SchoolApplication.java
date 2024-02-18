@@ -13,4 +13,3 @@ public class SchoolApplication {
     }
 
 }
-//http://localhost:8080/swagger-ui/index.html#/avatar-controller/getAvatarLimit
