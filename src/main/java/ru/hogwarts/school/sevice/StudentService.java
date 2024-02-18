@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 
@@ -151,7 +150,62 @@ public class StudentService {
         logger.info("time work = " + timeWork);
 
         return sum;
+    }
 
+    public int count = 0;
+
+    public void print(List<String> nameStudent) {
+
+        System.out.println("nameStudent = " + nameStudent.get(count));
+        count++;
+    }
+
+    public void getPrintParallel() {
+        List<String> nameStudent = new ArrayList<>(studentRepository.findAllNameStudent());
+
+        print(nameStudent);
+        print(nameStudent);
+        new Thread(() -> {
+            print(nameStudent);
+            print(nameStudent);
+        }).start();
+
+        new Thread(() -> {
+            print(nameStudent);
+            print(nameStudent);
+        }).start();
+
+        print(nameStudent);
+
+    }
+    public synchronized void printSynchronised(Queue<String> nameStudent) {
+
+        System.out.println("nameStudent = " + nameStudent.poll());
+
+    }
+
+    public void getPrintSynchronised() {
+        Queue<String> nameStudent =new LinkedList<>(studentRepository.findAllNameStudent());
+
+        printSynchronised(nameStudent);
+        printSynchronised(nameStudent);
+
+        new Thread(() -> {
+            printSynchronised(nameStudent);
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            printSynchronised(nameStudent);
+        }).start();
+
+        new Thread(() -> {
+            printSynchronised(nameStudent);
+            printSynchronised(nameStudent);
+        }).start();
+
+        printSynchronised(nameStudent);
 
     }
 

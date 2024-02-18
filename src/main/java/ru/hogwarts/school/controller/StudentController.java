@@ -160,4 +160,15 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getInteger());
     }
 
+
+    @GetMapping("/print_parallel")
+    public void getPrintParallel() {
+        studentService.getPrintParallel();
+    }
+
+    @GetMapping("/print_synchronized")
+    public void getPrintSynchronised() {
+        studentService.getPrintSynchronised();
+    }
+
 }
